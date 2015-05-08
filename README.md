@@ -25,9 +25,7 @@ class HelloWorld extends EventEmitter {
 
     constructor() {
         super();
-    }
-    
-    someMethod() {
+        
         this.on('some-event', (data) => {
             console.log('Hello ' + data.hello + '!');
         });
