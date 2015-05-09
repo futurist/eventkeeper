@@ -14,11 +14,22 @@ class EventEmitter {
 	 * @param {*} [data]
 	 */
 	emit(event, data = null) {
-		var listeners = this._events[event];
+		var listeners = this._events[event],
+			listener = null;
 
 		if(Array.isArray(listeners) && listeners.length > 0) {
 			for(var l = 0; l < listeners.length; l++) {
-				listeners[l](data);
+				listener = listeners[l];
+
+				if(listener.once) {
+					listeners[l] = null;
+				}
+
+				listener.callback(data);
+			}
+
+			while(listeners.indexOf(null) !== -1) {
+				listeners.splice(listeners.indexOf(null), 1);
 			}
 		}
 	}
@@ -28,8 +39,9 @@ class EventEmitter {
 	 *
 	 * @param {string|Array} event
 	 * @param {function} callback
+	 * @param {boolean} [once]
 	 */
-	on(event, callback) {
+	on(event, callback, once = false) {
 		if(Array.isArray(event)) {
 			for(var e = 0; e < event.length; e++) {
 				this.on(event[e], callback);
@@ -46,9 +58,22 @@ class EventEmitter {
 					this._events[event] = [ ];
 				}
 
-				this._events[event].push(callback);
+				this._events[event].push({
+					once: once,
+					callback: callback
+				});
 			}
 		}
+	}
+
+	/**
+	 * Same as "on", but will only be executed once.
+	 *
+	 * @param {string|Array} event
+	 * @param {function} callback
+	 */
+	once(event, callback) {
+		this.on(event, callback, true);
 	}
 
 }

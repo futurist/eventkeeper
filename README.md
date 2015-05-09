@@ -9,11 +9,20 @@ Really simple to use; include the code/file and create a new instance of `EventE
 ```js
 var ee = new EventEmitter;
 
+/* Called everytime the "some-event" event is emitted */
 ee.on('some-event', function(data) {
     console.log('Hello ' + data.hello + '!');
 });
 
+/* Called when "someother-event" is emitted, but only once */
+ee.once('someother-event', function(data) {
+    console.log('Hello other ' + data.hello + '!');
+});
+
 ee.emit('some-event', {
+    hello: 'World'
+});
+ee.emit('someother-event', {
     hello: 'World'
 });
 ```
@@ -29,7 +38,7 @@ class HelloWorld extends EventEmitter {
         this.on('some-event', (data) => {
             console.log('Hello ' + data.hello + '!');
         });
-        this.on([ 'some-event', 'someother-event' ], (data) => {
+        this.once([ 'some-event', 'someother-event' ], (data) => {
             console.log('Hello second ' + data.hello + '!');
         });
     }
