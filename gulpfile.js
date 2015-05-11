@@ -10,7 +10,7 @@ gulp.task('scripts', function() {
 		.pipe(babel())
 		.pipe(uglify())
 		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('./dist/test.js'));
+		.pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('watch', function() {
