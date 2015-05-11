@@ -1,0 +1,12 @@
+{
+    "name": "event-emitter",
+    "description": "ECMAScript 5/6 Event Emitter",
+    "version": "0.1.0",
+    "dependencies": {
+        "gulp": "*",
+        "gulp-concat": "*",
+        "gulp-sourcemaps": "*",
+        "gulp-uglify": "*",
+        "gulp-babel": "*"
+    }
+}
