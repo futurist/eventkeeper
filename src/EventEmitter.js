@@ -77,3 +77,10 @@ class EventEmitter {
 	}
 
 }
+
+/* Unfortunately I have to support IE8. So there's that. */
+if(typeof Array.isArray === 'undefined') {
+	Array.isArray = function(obj) {
+		return Object.prototype.toString.call(obj) === '[object Array]';
+	}
+}

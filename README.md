@@ -55,3 +55,7 @@ class HelloWorld extends EventEmitter {
 ## Syntax
 
 Listening to multiple Events is really easy. You can specify an array of events you want to listen to, or even a string of events separated by `,`, `,[space]` or `[space]`
+
+## Support
+
+Supports all modern browsers, including IE8+.
