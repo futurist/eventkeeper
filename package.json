@@ -3,6 +3,13 @@
   "description": "ECMAScript 6 Event Emitter",
   "repository": "https://github.com/Oyed/EventEmitter",
   "version": "1.0.3",
-  "main": "src/EventEmitter.js",
-  "author": "Thomas Mosey <tom@thomasmosey.com> (http://mosey.io)"
+  "main": "lib/EventEmitter.js",
+  "author": "Thomas Mosey <tom@thomasmosey.com> (http://mosey.io)",
+  "scripts": {
+    "compile": "babel -d lib/ src/",
+    "prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "babel": "^4.6.0"
+  }
 }
