@@ -1,11 +1,7 @@
 {
-    "name": "event-emitter",
-    "description": "ECMAScript 5/6 Event Emitter",
-    "version": "0.1.0",
-    "dependencies": {
-        "gulp": "*",
-        "gulp-sourcemaps": "*",
-        "gulp-uglify": "*",
-        "gulp-babel": "*"
-    }
+    "name": "event-keeper",
+    "description": "ECMAScript 6 Event Emitter",
+    "version": "1.0.1",
+    "main": "src/EventEmitter.js",
+    "author": "Thomas Mosey <tom@thomasmosey.com> (http://mosey.io)"
 }

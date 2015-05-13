@@ -84,3 +84,5 @@ if(typeof Array.isArray === 'undefined') {
 		return Object.prototype.toString.call(obj) === '[object Array]';
 	}
 }
+
+export default EventEmitter;
