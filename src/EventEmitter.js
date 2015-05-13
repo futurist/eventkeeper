@@ -85,4 +85,4 @@ if(typeof Array.isArray === 'undefined') {
 	}
 }
 
-export default EventEmitter;
+module.exports = EventEmitter;
