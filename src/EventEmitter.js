@@ -11,15 +11,21 @@ class EventEmitter {
 	/**
 	 * Assign Middleware to an Event, and the Event will only fire if the Middleware allows it.
 	 *
-	 * @param {string} event
+	 * @param {string|Array} event
 	 * @param {function} next
 	 */
 	middleware(event, func) {
-		if(!Array.isArray(this._middleware[event])) {
-			this._middleware[event] = [ ];
-		}
+		if(Array.isArray(event)) {
+			for(var e = 0; e < event.length; e++) {
+				this.middleware(event[e], func);
+			}
+		}else{
+			if(!Array.isArray(this._middleware[event])) {
+				this._middleware[event] = [ ];
+			}
 
-		this._middleware[event].push(func);
+			this._middleware[event].push(func);
+		}
 	}
 
 	/**
@@ -49,7 +55,7 @@ class EventEmitter {
 							}
 
 							doneCount++;
-						});
+						}, event);
 					}
 
 					if(doneCount >= middleware.length) {
