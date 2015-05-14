@@ -1,9 +1,13 @@
 {
   "name": "event-keeper",
   "description": "ECMAScript 6 Event Emitter",
-  "keywords": [ "event", "emitter", "listener" ],
+  "keywords": [
+    "event",
+    "emitter",
+    "listener"
+  ],
   "repository": "https://github.com/Oyed/EventEmitter",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "bugs": {
     "url": "https://github.com/Oyed/EventEmitter/issues",
     "email": "tom@thomasmosey.com"
