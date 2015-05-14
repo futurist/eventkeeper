@@ -2,7 +2,7 @@
 
 [![NPM Downloads](https://img.shields.io/npm/dm/event-keeper.png)](https://www.npmjs.com/package/event-keeper)
 
-Just a super-simple Event Emitter for JavaScript using ECMAScript 6. Needed something similar for a project so I created this.
+Just a super-simple Event Emitter for JavaScript using ECMAScript 6. Needed something similar for a project so I created this. Works with Browserify.
 
 ## Usage
 
@@ -103,6 +103,24 @@ class HelloWorld extends EventEmitter {
     }
 
 }
+```
+
+## Browserify
+
+This works perfectly fine with Browserify. For example:
+
+```js
+var EventEmitter = require('event-keeper'),
+    ee = new EventEmitter;
+
+/* Called everytime the "some-event" event is emitted */
+ee.on('some-event', (data) => {
+    console.log('Hello ' + data.hello + '!');
+});
+
+ee.emit('some-event', {
+    hello: 'World'
+});
 ```
 
 ## Syntax
