@@ -1,5 +1,7 @@
 # EventEmitter
 
+![NPM Downloads](https://img.shields.io/npm/dm/event-keeper.png)
+
 Just a super-simple Event Emitter for JavaScript using ECMAScript 6. Needed something similar for a project so I created this.
 
 ## Usage
