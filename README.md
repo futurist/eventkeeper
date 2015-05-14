@@ -52,6 +52,49 @@ class HelloWorld extends EventEmitter {
 }
 ```
 
+## Middleware
+
+It is possible to add "Middleware" to Events which will execute before the Event is fired. This Middleware will dictate whether or not the Event will actually be fired - and you can add multiple Middleware to events. For example:
+
+```js
+class HelloWorld extends EventEmitter {
+
+    constructor() {
+        super();
+        
+        /* Add the Middleware - doesn't have to be defined before listening to the Event */
+        this.middleware('someother-event', (data, next) => {
+            /**
+             * Data passed to an Event is available in the Middleware as "data"
+             */
+            console.log('The second ' + data.hello + ' wants to get through...');
+            
+            /**
+             * Calling next() passes the Middleware and the Event will continue to emit
+             * (If all other Middleware assigned to the Event have also passed, if any),
+             * for the Middleware to fail and for the Event to cancel the emit, don't call
+             * the next() function!
+             */
+            next();
+        });
+        
+        this.on('some-event', (data) => {
+            console.log('Hello ' + data.hello + '!');
+        });
+        this.once([ 'some-event', 'someother-event' ], (data) => {
+            console.log('Hello second ' + data.hello + '!');
+        });
+    }
+    
+    execute() {
+        this.emit('someother-event', {
+            hello: 'World'
+        });
+    }
+
+}
+```
+
 ## Syntax
 
 Listening to multiple Events is really easy. You can specify an array of events you want to listen to, or even a string of events separated by `,`, `,[space]` or `[space]`
