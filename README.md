@@ -79,6 +79,14 @@ class HelloWorld extends EventEmitter {
              */
             next();
         });
+        this.middleware('someother-event', (data, next) => {
+            /**
+             * Middleware can also change the Event Data - just pass back the new Data in next()
+             */
+            data.hello = 'Mars';
+            
+            next(data);
+        });
         
         this.on('some-event', (data) => {
             console.log('Hello ' + data.hello + '!');
