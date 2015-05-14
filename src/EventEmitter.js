@@ -5,6 +5,21 @@ class EventEmitter {
 	 */
 	constructor() {
 		this._events = { };
+		this._middleware = { };
+	}
+
+	/**
+	 * Assign Middleware to an Event, and the Event will only fire if the Middleware allows it.
+	 *
+	 * @param {string} event
+	 * @param {function} next
+	 */
+	middleware(event, func) {
+		if(!Array.isArray(this._middleware[event])) {
+			this._middleware[event] = [ ];
+		}
+
+		this._middleware[event].push(func);
 	}
 
 	/**
@@ -15,19 +30,42 @@ class EventEmitter {
 	 */
 	emit(event, data = null) {
 		var listeners = this._events[event],
-			listener = null;
+			listener = null,
+			middleware = null,
+			doneCount = 0,
+			execute = false;
 
 		if(Array.isArray(listeners) && listeners.length > 0) {
 			for(var l = 0; l < listeners.length; l++) {
 				listener = listeners[l];
+				middleware = this._middleware[event];
 
-				if(listener.once) {
-					listeners[l] = null;
+				/* Check and execute Middleware */
+				if(Array.isArray(middleware) && middleware.length > 0) {
+					for(var m = 0; m < middleware.length; m++) {
+						middleware[m](data, () => {
+							doneCount++;
+						});
+					}
+
+					if(doneCount >= middleware.length) {
+						execute = true;
+					}
+				}else{
+					execute = true;
 				}
 
-				listener.callback(data);
+				/* If Middleware checks have been passed, execute */
+				if(execute) {
+					if(listener.once) {
+						listeners[l] = null;
+					}
+
+					listener.callback(data);
+				}
 			}
 
+			/* Dirty way of removing used Events */
 			while(listeners.indexOf(null) !== -1) {
 				listeners.splice(listeners.indexOf(null), 1);
 			}
