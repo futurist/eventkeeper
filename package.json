@@ -1,8 +1,14 @@
 {
   "name": "event-keeper",
   "description": "ECMAScript 6 Event Emitter",
+  "keywords": [ "event", "emitter", "listener" ],
   "repository": "https://github.com/Oyed/EventEmitter",
   "version": "1.0.6",
+  "bugs": {
+    "url": "https://github.com/Oyed/EventEmitter/issues",
+    "email": "tom@thomasmosey.com"
+  },
+  "license": "Apache-2.0",
   "main": "lib/EventEmitter.js",
   "author": "Thomas Mosey <tom@thomasmosey.com> (http://mosey.io)",
   "scripts": {
