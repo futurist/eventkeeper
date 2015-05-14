@@ -43,7 +43,11 @@ class EventEmitter {
 				/* Check and execute Middleware */
 				if(Array.isArray(middleware) && middleware.length > 0) {
 					for(var m = 0; m < middleware.length; m++) {
-						middleware[m](data, () => {
+						middleware[m](data, (newData = null) => {
+							if(newData != null) {
+								data = newData;
+							}
+
 							doneCount++;
 						});
 					}
