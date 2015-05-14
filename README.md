@@ -4,6 +4,14 @@
 
 Just a super-simple Event Emitter for JavaScript using ECMAScript 6. Needed something similar for a project so I created this. Works with Browserify.
 
+## Installation
+
+You can either build the code yourself and include it in your project, or you can install via NPM:
+
+`npm install event-keeper --save`
+
+Which would then allow you to `require('event-keeper')` in Browserify and Node (Node is currently untested).
+
 ## Usage
 
 Really simple to use; include the code/file and create a new instance of `EventEmitter`. For example:
