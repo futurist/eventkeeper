@@ -1,3 +1,10 @@
+/**
+ * Event Emitter
+ *
+ * @author Thomas Mosey [tom@thomasmosey.com]
+ * @version 1.0.11
+ */
+
 class EventEmitter {
 
 	/**
@@ -25,6 +32,41 @@ class EventEmitter {
 			}
 
 			this._middleware[event].push(func);
+		}
+	}
+
+	/**
+	 * Removes all Listeners for an Event and, optionally, all Middleware for the Event.
+	 *
+	 * @param {string|Array} event
+	 * @param {boolean} [middleware]
+	 */
+	removeListeners(event, middleware = false) {
+		if(Array.isArray(event)) {
+			for(var e = 0; e < event.length; e++) {
+				this.removeListeners(event[e], middleware);
+			}
+		}else{
+			delete this._events[event];
+
+			if(middleware) {
+				this.removeMiddleware(event);
+			}
+		}
+	}
+
+	/**
+	 * Removes all Middleware from an Event.
+	 *
+	 * @param {string|Array} event
+	 */
+	removeMiddleware(event) {
+		if(Array.isArray(event)) {
+			for(var e = 0; e < event.length; e++) {
+				this.removeMiddleware(event[e]);
+			}
+		}else{
+			delete this._middleware[event];
 		}
 	}
 

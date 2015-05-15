@@ -113,6 +113,25 @@ class HelloWorld extends EventEmitter {
 }
 ```
 
+## Removing Listeners/Middleware
+
+You can remove all of the Listeners attached to an Event like so:
+
+```js
+/* Removes the Listeners for "some-event", can also accept an Array of Events */
+ee.removeListeners('some-event');
+```
+
+This will not remove Middleware for an Event, and any new Listeners will still use the Middleware applied. If you'd like to delete Middleware, there are two ways to do this:
+
+```js
+/* Removes the Listeners for "some-event" and all it's Middleware */
+ee.removeListeners('some-event', true);
+
+/* Removes the Middleware for "some-event" but NOT it's Listeners, can also accept an Array of Events to delete Middleware from */
+ee.removeMiddleware('some-event', true);
+```
+
 ## Browserify
 
 This works perfectly fine with Browserify. For example:
@@ -134,3 +153,7 @@ ee.emit('some-event', {
 ## Syntax
 
 Listening to multiple Events is really easy. You can specify an array of events you want to listen to, or even a string of events separated by `,`, `,[space]` or `[space]`
+
+## Planned Updates
+
+- Option for naming Middleware and reusing it (Also allows for more specific Middleware removal)
