@@ -157,3 +157,5 @@ Listening to multiple Events is really easy. You can specify an array of events 
 ## Planned Updates
 
 - Option for naming Middleware and reusing it (Also allows for more specific Middleware removal)
+- Add Tests
+- Add Travis CI build testing
