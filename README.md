@@ -129,7 +129,7 @@ This will not remove Middleware for an Event, and any new Listeners will still u
 ee.removeListeners('some-event', true);
 
 /* Removes the Middleware for "some-event" but NOT it's Listeners, can also accept an Array of Events to delete Middleware from */
-ee.removeMiddleware('some-event', true);
+ee.removeMiddleware('some-event');
 ```
 
 ## Browserify
