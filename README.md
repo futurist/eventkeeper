@@ -113,6 +113,40 @@ class HelloWorld extends EventEmitter {
 }
 ```
 
+## Emitting "silent" Events
+
+You can emit an Event which will ignore all Middleware and fire like so:
+
+```js
+class HelloWorld extends EventEmitter {
+
+    constructor() {
+        super();
+        
+        /* This Middleware won't be fired */
+        this.middleware('someother-event', (data, next) => {
+            console.log('The second ' + data.hello + ' wants to get through...');
+            
+            next();
+        });
+        
+        this.on('some-event', (data) => {
+            console.log('Hello ' + data.hello + '!');
+        });
+        this.once([ 'some-event', 'someother-event' ], (data) => {
+            console.log('Hello second ' + data.hello + '!');
+        });
+    }
+    
+    execute() {
+        this.emit('someother-event', {
+            hello: 'World'
+        }, true); // The third, optional parameter of "emit" is whether the Event should be silent
+    }
+
+}
+```
+
 ## Removing Listeners/Middleware
 
 You can remove all of the Listeners attached to an Event like so:

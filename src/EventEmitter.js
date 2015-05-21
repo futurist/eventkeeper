@@ -2,7 +2,7 @@
  * Event Emitter
  *
  * @author Thomas Mosey [tom@thomasmosey.com]
- * @version 1.0.13
+ * @version 1.0.14
  */
 
 class EventEmitter {
