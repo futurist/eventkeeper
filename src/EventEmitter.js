@@ -2,7 +2,7 @@
  * Event Emitter
  *
  * @author Thomas Mosey [tom@thomasmosey.com]
- * @version 1.0.11
+ * @version 1.0.13
  */
 
 class EventEmitter {
@@ -19,7 +19,7 @@ class EventEmitter {
 	 * Assign Middleware to an Event, and the Event will only fire if the Middleware allows it.
 	 *
 	 * @param {string|Array} event
-	 * @param {function} next
+	 * @param {function} func
 	 */
 	middleware(event, func) {
 		if(Array.isArray(event)) {
@@ -75,36 +75,41 @@ class EventEmitter {
 	 *
 	 * @param {string} event
 	 * @param {*} [data]
+	 * @param {boolean} [silent]
 	 */
-	emit(event, data = null) {
+	emit(event, data = null, silent = false) {
 		var listeners = this._events[event],
 			listener = null,
 			middleware = null,
 			doneCount = 0,
-			execute = false;
+			execute = silent;
 
 		if(Array.isArray(listeners) && listeners.length > 0) {
 			for(var l = 0; l < listeners.length; l++) {
 				listener = listeners[l];
-				middleware = this._middleware[event];
 
-				/* Check and execute Middleware */
-				if(Array.isArray(middleware) && middleware.length > 0) {
-					for(var m = 0; m < middleware.length; m++) {
-						middleware[m](data, (newData = null) => {
-							if(newData != null) {
-								data = newData;
-							}
+				/* Start Middleware checks unless we're doing a silent emit */
+				if(!silent) {
+					middleware = this._middleware[event];
 
-							doneCount++;
-						}, event);
-					}
+					/* Check and execute Middleware */
+					if(Array.isArray(middleware) && middleware.length > 0) {
+						for(var m = 0; m < middleware.length; m++) {
+							middleware[m](data, function(newData = null) {
+								if(newData != null) {
+									data = newData;
+								}
 
-					if(doneCount >= middleware.length) {
+								doneCount++;
+							}, event);
+						}
+
+						if(doneCount >= middleware.length) {
+							execute = true;
+						}
+					}else{
 						execute = true;
 					}
-				}else{
-					execute = true;
 				}
 
 				/* If Middleware checks have been passed, execute */
