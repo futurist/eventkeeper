@@ -38,35 +38,44 @@ class EventEmitter {
 	/**
 	 * Removes all Listeners for an Event and, optionally, all Middleware for the Event.
 	 *
-	 * @param {string|Array} event
+	 * @param {string|Array|null} [event]
 	 * @param {boolean} [middleware]
 	 */
-	removeListeners(event, middleware = false) {
-		if(Array.isArray(event)) {
-			for(var e = 0; e < event.length; e++) {
-				this.removeListeners(event[e], middleware);
+	removeListeners(event = null, middleware = false) {
+		if(event != null) {
+			if(Array.isArray(event)) {
+				for(var e = 0; e < event.length; e++) {
+					this.removeListeners(event[e], middleware);
+				}
+			}else{
+				delete this._events[event];
+
+				if(middleware) {
+					this.removeMiddleware(event);
+				}
 			}
 		}else{
-			delete this._events[event];
-
-			if(middleware) {
-				this.removeMiddleware(event);
-			}
+			this._events = { };
 		}
+
 	}
 
 	/**
 	 * Removes all Middleware from an Event.
 	 *
-	 * @param {string|Array} event
+	 * @param {string|Array|null} [event]
 	 */
 	removeMiddleware(event) {
-		if(Array.isArray(event)) {
-			for(var e = 0; e < event.length; e++) {
-				this.removeMiddleware(event[e]);
+		if(event != null) {
+			if(Array.isArray(event)) {
+				for(var e = 0; e < event.length; e++) {
+					this.removeMiddleware(event[e]);
+				}
+			}else{
+				delete this._middleware[event];
 			}
 		}else{
-			delete this._middleware[event];
+			this._middleware = { };
 		}
 	}
 

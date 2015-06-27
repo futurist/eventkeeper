@@ -1,6 +1,6 @@
 {
   "name": "event-keeper",
-  "description": "ECMAScript 6 Event Emitter",
+  "description": "Browserify Event Emitter",
   "keywords": [
     "event",
     "emitter",

@@ -2,7 +2,7 @@
 
 [![NPM Downloads](https://img.shields.io/npm/dm/event-keeper.png)](https://www.npmjs.com/package/event-keeper)
 
-Just a super-simple Event Emitter for JavaScript using ECMAScript 6. Needed something similar for a project so I created this. Works with Browserify.
+Just a super-simple Event Emitter for JavaScript using Browserify. Needed something similar for a project so I created this. Works with Browserify.
 
 ## Installation
 
