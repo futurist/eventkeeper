@@ -151,6 +151,7 @@ class EventEmitter {
 				this.on(event[e], callback);
 			}
 		}else{
+			event = event.toString();
 			var split = event.split(/,|, | /);
 
 			if(split.length > 1) {
