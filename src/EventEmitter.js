@@ -87,6 +87,8 @@ class EventEmitter {
 	 * @param {boolean} [silent]
 	 */
 	emit(event, data = null, silent = false) {
+		event = event.toString();
+
 		var listeners = this._events[event],
 			listener = null,
 			middleware = null,
