@@ -10,11 +10,11 @@
   "version": "1.0.16",
   "bugs": {
     "url": "https://github.com/Oyed/EventEmitter/issues",
-    "email": "tom@thomasmosey.com"
+    "email": "tom@mosey.io"
   },
   "license": "Apache-2.0",
   "main": "lib/EventEmitter.js",
-  "author": "Thomas Mosey <tom@thomasmosey.com> (http://mosey.io)",
+  "author": "Thomas Mosey <tom@mosey.io> (http://mosey.io)",
   "scripts": {
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile"

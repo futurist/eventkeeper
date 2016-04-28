@@ -1,187 +1,173 @@
 /**
- * Event Emitter
+ * Event Emitter.
  *
- * @author Thomas Mosey [tom@thomasmosey.com]
- * @version 1.0.14
+ * @author Thomas Mosey [tom@mosey.io]
+ * @version 1.1.0
  */
 
 class EventEmitter {
 
-	/**
-	 * Initializes the Event Emitter.
-	 */
-	constructor() {
-		this._events = { };
-		this._middleware = { };
-	}
+    /**
+     * Initializes the Event Emitter.
+     */
+    constructor() {
+        this._events = {};
+        this._middleware = {};
+    }
 
-	/**
-	 * Assign Middleware to an Event, and the Event will only fire if the Middleware allows it.
-	 *
-	 * @param {string|Array} event
-	 * @param {function} func
-	 */
-	middleware(event, func) {
-		if(Array.isArray(event)) {
-			for(var e = 0; e < event.length; e++) {
-				this.middleware(event[e], func);
-			}
-		}else{
-			if(!Array.isArray(this._middleware[event])) {
-				this._middleware[event] = [ ];
-			}
+    /**
+     * Assign Middleware to an Event, and the Event will only fire if the Middleware allows it.
+     *
+     * @param {string|Array} evnt
+     * @param {function} func
+     */
+    middleware(evnt, func) {
+        if (Array.isArray(evnt)) {
+            evnt.forEach(e => this.middleware(e, func));
+        } else {
+            if (!Array.isArray(this._middleware[evnt])) {
+                this._middleware[evnt] = [];
+            }
 
-			this._middleware[event].push(func);
-		}
-	}
+            this._middleware[evnt].push(func);
+        }
+    }
 
-	/**
-	 * Removes all Listeners for an Event and, optionally, all Middleware for the Event.
-	 *
-	 * @param {string|Array|null} [event]
-	 * @param {boolean} [middleware]
-	 */
-	removeListeners(event = null, middleware = false) {
-		if(event != null) {
-			if(Array.isArray(event)) {
-				for(var e = 0; e < event.length; e++) {
-					this.removeListeners(event[e], middleware);
-				}
-			}else{
-				delete this._events[event];
+    /**
+     * Removes all Listeners for an Event and, optionally, all Middleware for the Event.
+     *
+     * @param {string|Array|null} [evnt]
+     * @param {boolean} [middleware]
+     */
+    removeListeners(evnt = null, middleware = false) {
+        if (evnt !== null) {
+            if (Array.isArray(evnt)) {
+                evnt.forEach(e => this.removeListeners(e, middleware));
+            } else {
+                delete this._events[evnt];
 
-				if(middleware) {
-					this.removeMiddleware(event);
-				}
-			}
-		}else{
-			this._events = { };
-		}
+                if (middleware) {
+                    this.removeMiddleware(evnt);
+                }
+            }
+        } else {
+            this._events = {};
+        }
+    }
 
-	}
+    /**
+     * Removes all Middleware from an Event.
+     *
+     * @param {string|Array|null} [evnt]
+     */
+    removeMiddleware(evnt) {
+        if (evnt !== null) {
+            if (Array.isArray(evnt)) {
+                evnt.forEach(e => this.removeMiddleware(e));
+            } else {
+                delete this._middleware[evnt];
+            }
+        } else {
+            this._middleware = {};
+        }
+    }
 
-	/**
-	 * Removes all Middleware from an Event.
-	 *
-	 * @param {string|Array|null} [event]
-	 */
-	removeMiddleware(event) {
-		if(event != null) {
-			if(Array.isArray(event)) {
-				for(var e = 0; e < event.length; e++) {
-					this.removeMiddleware(event[e]);
-				}
-			}else{
-				delete this._middleware[event];
-			}
-		}else{
-			this._middleware = { };
-		}
-	}
+    /**
+     * Emit an Event to Listeners.
+     *
+     * @param {string} evnt
+     * @param {*} [data]
+     * @param {boolean} [silent]
+     */
+    emit(evnt, data = null, silent = false) {
+        evnt = evnt.toString();
 
-	/**
-	 * Emit an Event to Listeners.
-	 *
-	 * @param {string} event
-	 * @param {*} [data]
-	 * @param {boolean} [silent]
-	 */
-	emit(event, data = null, silent = false) {
-		event = event.toString();
+        let listeners = this._events[evnt];
+        let middleware = null;
+        let doneCount = 0;
+        let execute = silent;
 
-		var listeners = this._events[event],
-			listener = null,
-			middleware = null,
-			doneCount = 0,
-			execute = silent;
+        if (Array.isArray(listeners) && listeners.length) {
+            listeners.forEach((listener, index) => {
+                /* Start Middleware checks unless we're doing a silent emit */
+                if (!silent) {
+                    middleware = this._middleware[evnt];
 
-		if(Array.isArray(listeners) && listeners.length > 0) {
-			for(var l = 0; l < listeners.length; l++) {
-				listener = listeners[l];
+                    /* Check and execute Middleware */
+                    if (Array.isArray(middleware) && middleware.length) {
+                        middleware.forEach(m => {
+                            m(data, (newData = null) => {
+                                if (newData !== null) {
+                                    data = newData;
+                                }
 
-				/* Start Middleware checks unless we're doing a silent emit */
-				if(!silent) {
-					middleware = this._middleware[event];
+                                doneCount++;
+                            }, evnt);
+                        });
 
-					/* Check and execute Middleware */
-					if(Array.isArray(middleware) && middleware.length > 0) {
-						for(var m = 0; m < middleware.length; m++) {
-							middleware[m](data, function(newData = null) {
-								if(newData != null) {
-									data = newData;
-								}
+                        if (doneCount >= middleware.length) {
+                            execute = true;
+                        }
+                    } else {
+                        execute = true;
+                    }
+                }
 
-								doneCount++;
-							}, event);
-						}
+                /* If Middleware checks have been passed, execute */
+                if (execute) {
+                    if (listener.once) {
+                        listeners[index] = null;
+                    }
 
-						if(doneCount >= middleware.length) {
-							execute = true;
-						}
-					}else{
-						execute = true;
-					}
-				}
+                    listener.callback(data);
+                }
+            });
 
-				/* If Middleware checks have been passed, execute */
-				if(execute) {
-					if(listener.once) {
-						listeners[l] = null;
-					}
+            /* Dirty way of removing used Events */
+            while (listeners.indexOf(null) !== -1) {
+                listeners.splice(listeners.indexOf(null), 1);
+            }
+        }
+    }
 
-					listener.callback(data);
-				}
-			}
+    /**
+     * Set callbacks for an event(s).
+     *
+     * @param {string|Array} evnt
+     * @param {function} callback
+     * @param {boolean} [once]
+     */
+    on(evnt, callback, once = false) {
+        if (Array.isArray(evnt)) {
+            evnt.forEach(e => this.on(e, callback));
+        } else {
+            evnt = evnt.toString();
+            const split = evnt.split(/,|, | /);
 
-			/* Dirty way of removing used Events */
-			while(listeners.indexOf(null) !== -1) {
-				listeners.splice(listeners.indexOf(null), 1);
-			}
-		}
-	}
+            if (split.length > 1) {
+                split.forEach(e => this.on(e, callback));
+            } else {
+                if (!Array.isArray(this._events[evnt])) {
+                    this._events[evnt] = [];
+                }
 
-	/**
-	 * Set callbacks for an event(s).
-	 *
-	 * @param {string|Array} event
-	 * @param {function} callback
-	 * @param {boolean} [once]
-	 */
-	on(event, callback, once = false) {
-		if(Array.isArray(event)) {
-			for(var e = 0; e < event.length; e++) {
-				this.on(event[e], callback);
-			}
-		}else{
-			event = event.toString();
-			var split = event.split(/,|, | /);
+                this._events[evnt].push({
+                    once: once,
+                    callback: callback,
+                });
+            }
+        }
+    }
 
-			if(split.length > 1) {
-				for(var e = 0; e < split.length; e++) {
-					this.on(split[e], callback);
-				}
-			}else{
-				if(!Array.isArray(this._events[event])) {
-					this._events[event] = [ ];
-				}
-
-				this._events[event].push({
-					once: once,
-					callback: callback
-				});
-			}
-		}
-	}
-
-	/**
-	 * Same as "on", but will only be executed once.
-	 *
-	 * @param {string|Array} event
-	 * @param {function} callback
-	 */
-	once(event, callback) {
-		this.on(event, callback, true);
-	}
+    /**
+     * Same as "on", but will only be executed once.
+     *
+     * @param {string|Array} evnt
+     * @param {function} callback
+     */
+    once(evnt, callback) {
+        this.on(evnt, callback, true);
+    }
 
 }
 
