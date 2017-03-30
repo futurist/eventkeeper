@@ -9,7 +9,7 @@
     "module"
   ],
   "repository": "https://github.com/oyed/eventkeeper",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "bugs": {
     "url": "https://github.com/oyed/eventkeeper/issues",
     "email": "tom@mosey.io"
