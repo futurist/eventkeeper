@@ -4,7 +4,7 @@ class EventEmitter {
      * Initializes the Event Emitter.
      */
     constructor() {
-        this._events = {};
+        this._listeners = {};
         this._middleware = {};
     }
 
@@ -37,14 +37,14 @@ class EventEmitter {
             if (Array.isArray(evnt)) {
                 evnt.forEach(e => this.removeListeners(e, middleware));
             } else {
-                delete this._events[evnt];
+                delete this._listeners[evnt];
 
                 if (middleware) {
                     this.removeMiddleware(evnt);
                 }
             }
         } else {
-            this._events = {};
+            this._listeners = {};
         }
     }
 
@@ -75,7 +75,7 @@ class EventEmitter {
     emit(evnt, data = null, silent = false) {
         evnt = evnt.toString();
 
-        let listeners = this._events[evnt];
+        let listeners = this._listeners[evnt];
         let middleware = null;
         let doneCount = 0;
         let execute = silent;
@@ -140,11 +140,11 @@ class EventEmitter {
             if (split.length > 1) {
                 split.forEach(e => this.on(e, callback));
             } else {
-                if (!Array.isArray(this._events[evnt])) {
-                    this._events[evnt] = [];
+                if (!Array.isArray(this._listeners[evnt])) {
+                    this._listeners[evnt] = [];
                 }
 
-                this._events[evnt].push({
+                this._listeners[evnt].push({
                     once: once,
                     callback: callback,
                 });
@@ -162,6 +162,26 @@ class EventEmitter {
         this.on(evnt, callback, true);
     }
 
+    /**
+     * Returns whether the Emitter has any Listeners.
+     *
+     * @returns {boolean}
+     */
+    hasListeners() {
+        return Object.keys(this._listeners).length > 0;
+    }
+
+    /**
+     * Returns whether the Emitter has any Listeners for the given Event.
+     *
+     * @param {string} evnt
+     *
+     * @returns {boolean}
+     */
+    has(evnt) {
+        return Array.isArray(this._listeners[evnt]) && this._listeners[evnt].length;
+    }
+
 }
 
-export default EventEmitter;
+module.exports = EventEmitter;

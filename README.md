@@ -181,6 +181,26 @@ ee.removeMiddleware('some-event');
 
 Listening to multiple Events is really easy. You can specify an array of events you want to listen to, or even a string of events separated by `,`, `,[space]` or `[space]`
 
+## Utility Functions
+
+```js
+/**
+ * Returns whether the Emitter has any registered Listeners.
+ *
+ * @return {boolean}
+ */
+ee.hasListeners();
+
+/**
+ * Returns whether the Emitter has any registered Listeners for the given Event.
+ *
+ * @param {string} evnt
+ *
+ * @return {boolean}
+ */
+ee.has('someevent');
+```
+
 ## Planned Updates
 
 - Option for naming Middleware and reusing it (Also allows for more specific Middleware removal)
