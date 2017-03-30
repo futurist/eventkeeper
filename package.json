@@ -16,5 +16,5 @@
   },
   "license": "Apache-2.0",
   "main": "src/EventEmitter.js",
-  "author": "Thomas Mosey <tom@mosey.io> (http://oyed.io)",
+  "author": "Thomas Mosey <tom@mosey.io> (http://oyed.io)"
 }
