@@ -1,20 +1,22 @@
 {
   "name": "event-keeper",
-  "description": "Browserify Event Emitter",
+  "description": "ES6-based Event Emitter",
   "keywords": [
     "event",
     "emitter",
-    "listener"
+    "listener",
+    "es6",
+    "module"
   ],
-  "repository": "https://github.com/Oyed/EventEmitter",
-  "version": "1.1.0",
+  "repository": "https://github.com/oyed/eventkeeper",
+  "version": "2.0.0",
   "bugs": {
-    "url": "https://github.com/Oyed/EventEmitter/issues",
+    "url": "https://github.com/oyed/eventkeeper/issues",
     "email": "tom@mosey.io"
   },
   "license": "Apache-2.0",
-  "main": "lib/EventEmitter.js",
-  "author": "Thomas Mosey <tom@mosey.io> (http://mosey.io)",
+  "main": "lib/emitter.js",
+  "author": "Thomas Mosey <tom@mosey.io> (http://oyed.io)",
   "scripts": {
     "compile": "babel -d lib/ src/",
     "prepublish": "npm run compile"

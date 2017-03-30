@@ -1,32 +1,33 @@
-# EventEmitter
+# EventKeeper
 
 [![NPM Downloads](https://img.shields.io/npm/dm/event-keeper.png)](https://www.npmjs.com/package/event-keeper)
 
-Just a super-simple Event Emitter for JavaScript using Browserify. Needed something similar for a project so I created this. Works with Browserify.
+A super-simple ES6-based Event Emitter. Supports compilers (Webpack, Browserify, etc.) and Node.
 
 ## Installation
 
-You can either build the code yourself and include it in your project, or you can install via NPM:
+You can either build the code yourself and include it in your project, or you can install with NPM/Yarn:
 
-`npm install event-keeper --save`
-
-Which would then allow you to `require('event-keeper')` in Browserify and Node (Node is currently untested).
+```
+npm install event-keeper --save
+yarn add event-keeper
+```
 
 ## Usage
 
 Really simple to use; include the code/file and create a new instance of `EventEmitter`. For example:
 
 ```js
-var ee = new EventEmitter;
+const ee = new EventEmitter();
 
 /* Called everytime the "some-event" event is emitted */
-ee.on('some-event', (data) => {
-    console.log('Hello ' + data.hello + '!');
+ee.on('some-event', data => {
+    console.log(`Hello ${data.hello}!`);
 });
 
 /* Called when "someother-event" is emitted, but only once */
-ee.once('someother-event', (data) => {
-    console.log('Hello other ' + data.hello + '!');
+ee.once('someother-event', data => {
+    console.log(`Hello other ${data.hello}!`);
 });
 
 ee.emit('some-event', {
@@ -45,11 +46,11 @@ class HelloWorld extends EventEmitter {
     constructor() {
         super();
         
-        this.on('some-event', (data) => {
-            console.log('Hello ' + data.hello + '!');
+        this.on('some-event', data => {
+            console.log(`Hello ${data.hello}!`);
         });
-        this.once([ 'some-event', 'someother-event' ], (data) => {
-            console.log('Hello second ' + data.hello + '!');
+        this.once([ 'some-event', 'someother-event' ], data => {
+            console.log(`Hello second ${data.hello}!`);
         });
     }
     
@@ -77,7 +78,7 @@ class HelloWorld extends EventEmitter {
             /**
              * Data passed to an Event is available in the Middleware as "data"
              */
-            console.log('The second ' + data.hello + ' wants to get through...');
+            console.log(`The second ${data.hello} wants to get through...`);
             
             /**
              * Calling next() passes the Middleware and the Event will continue to emit
@@ -96,11 +97,11 @@ class HelloWorld extends EventEmitter {
             next(data);
         });
         
-        this.on('some-event', (data) => {
-            console.log('Hello ' + data.hello + '!');
+        this.on('some-event', data => {
+            console.log(`Hello ${data.hello}!`);
         });
-        this.once([ 'some-event', 'someother-event' ], (data) => {
-            console.log('Hello second ' + data.hello + '!');
+        this.once([ 'some-event', 'someother-event' ], data => {
+            console.log(`Hello second ${data.hello}!`);
         });
     }
     
@@ -125,22 +126,22 @@ class HelloWorld extends EventEmitter {
         
         /* This Middleware won't be fired */
         this.middleware('someother-event', (data, next) => {
-            console.log('The second ' + data.hello + ' wants to get through...');
+            console.log(`The second ${data.hello} wants to get through...`);
             
             next();
         });
         
-        this.on('some-event', (data) => {
-            console.log('Hello ' + data.hello + '!');
+        this.on('some-event', data => {
+            console.log(`Hello ${data.hello}!`);
         });
-        this.once([ 'some-event', 'someother-event' ], (data) => {
-            console.log('Hello second ' + data.hello + '!');
+        this.once([ 'some-event', 'someother-event' ], data => {
+            console.log(`Hello second ${data.hello}!`);
         });
     }
     
     execute() {
         this.emit('someother-event', {
-            hello: 'World'
+            hello: 'World',
         }, true); // The third, optional parameter of "emit" is whether the Event should be silent
     }
 
@@ -152,41 +153,53 @@ class HelloWorld extends EventEmitter {
 You can remove all of the Listeners attached to an Event like so:
 
 ```js
-/* Removes the Listeners for "some-event", can also accept an Array of Events */
+/**
+ * Removes the Listeners for "some-event", can also accept an
+ * Array of Events
+ */
 ee.removeListeners('some-event');
 ```
 
 This will not remove Middleware for an Event, and any new Listeners will still use the Middleware applied. If you'd like to delete Middleware, there are two ways to do this:
 
 ```js
-/* Removes the Listeners for "some-event" and all it's Middleware */
+/**
+ * Removes the Listeners for "some-event" and all it's
+ * Middleware
+ */
 ee.removeListeners('some-event', true);
 
-/* Removes the Middleware for "some-event" but NOT it's Listeners, can also accept an Array of Events to delete Middleware from */
+/**
+ * Removes the Middleware for "some-event" but NOT it's
+ * Listeners, can also accept an Array of Events to delete
+ * Middleware from
+ */
 ee.removeMiddleware('some-event');
-```
-
-## Browserify
-
-This works perfectly fine with Browserify. For example:
-
-```js
-var EventEmitter = require('event-keeper'),
-    ee = new EventEmitter;
-
-/* Called everytime the "some-event" event is emitted */
-ee.on('some-event', (data) => {
-    console.log('Hello ' + data.hello + '!');
-});
-
-ee.emit('some-event', {
-    hello: 'World'
-});
 ```
 
 ## Syntax
 
 Listening to multiple Events is really easy. You can specify an array of events you want to listen to, or even a string of events separated by `,`, `,[space]` or `[space]`
+
+## Utility Functions
+
+```js
+/**
+ * Returns whether the Emitter has any registered Listeners.
+ *
+ * @return {boolean}
+ */
+ee.hasListeners();
+
+/**
+ * Returns whether the Emitter has any registered Listeners for the given Event.
+ *
+ * @param {string} evnt
+ *
+ * @return {boolean}
+ */
+ee.has('someevent');
+```
 
 ## Planned Updates
 
