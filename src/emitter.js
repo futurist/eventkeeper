@@ -1,10 +1,3 @@
-/**
- * Event Emitter.
- *
- * @author Thomas Mosey [tom@mosey.io]
- * @version 1.1.0
- */
-
 class EventEmitter {
 
     /**
@@ -89,11 +82,11 @@ class EventEmitter {
 
         if (Array.isArray(listeners) && listeners.length) {
             listeners.forEach((listener, index) => {
-                /* Start Middleware checks unless we're doing a silent emit */
+                // Start Middleware checks unless we're doing a silent emit
                 if (!silent) {
                     middleware = this._middleware[evnt];
 
-                    /* Check and execute Middleware */
+                    // Check and execute Middleware
                     if (Array.isArray(middleware) && middleware.length) {
                         middleware.forEach(m => {
                             m(data, (newData = null) => {
@@ -113,7 +106,7 @@ class EventEmitter {
                     }
                 }
 
-                /* If Middleware checks have been passed, execute */
+                // If Middleware checks have been passed, execute
                 if (execute) {
                     if (listener.once) {
                         listeners[index] = null;
@@ -123,7 +116,7 @@ class EventEmitter {
                 }
             });
 
-            /* Dirty way of removing used Events */
+            // Dirty way of removing used Events
             while (listeners.indexOf(null) !== -1) {
                 listeners.splice(listeners.indexOf(null), 1);
             }
