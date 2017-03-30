@@ -6,3 +6,4 @@
 - Added `hasListeners` Utility Function to the Emitter
 - Added `has` Utility Function to the Emitter
 - Added the Yarn lock file
+- Removed Babel compiling

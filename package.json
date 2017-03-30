@@ -15,13 +15,6 @@
     "email": "tom@mosey.io"
   },
   "license": "Apache-2.0",
-  "main": "lib/emitter.js",
+  "main": "src/EventEmitter.js",
   "author": "Thomas Mosey <tom@mosey.io> (http://oyed.io)",
-  "scripts": {
-    "compile": "babel -d lib/ src/",
-    "prepublish": "npm run compile"
-  },
-  "devDependencies": {
-    "babel": "^4.6.0"
-  }
 }
