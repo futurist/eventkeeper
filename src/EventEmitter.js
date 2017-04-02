@@ -82,14 +82,14 @@ class EventEmitter {
         let doneCount = 0;
         let execute = silent;
 
-        if (isArray(listeners) && listeners.length) {
+        if (isArray(listeners)) {
             listeners.forEach((listener, index) => {
                 // Start Middleware checks unless we're doing a silent emit
                 if (!silent) {
                     middleware = this._middleware[evnt];
 
                     // Check and execute Middleware
-                    if (isArray(middleware) && middleware.length) {
+                    if (isArray(middleware)) {
                         middleware.forEach(m => {
                             m(data, (newData = null) => {
                                 if (newData !== null) {
