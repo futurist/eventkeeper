@@ -16,5 +16,13 @@
   },
   "license": "Apache-2.0",
   "main": "src/EventEmitter.js",
-  "author": "Thomas Mosey <tom@mosey.io> (http://oyed.io)"
+  "author": "Thomas Mosey <tom@mosey.io> (http://oyed.io)",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "jest": "^19.0.2"
+  }
 }

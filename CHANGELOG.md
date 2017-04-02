@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added basic test cases
+- `Array.isArray` Performance enhancement (#5)
 - Fixed `removeMiddleware` Function not having a default value
 
 ## 2.0.1 - 30th March 2017
