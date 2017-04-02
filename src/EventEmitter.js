@@ -53,7 +53,7 @@ class EventEmitter {
      *
      * @param {string|Array|null} [evnt]
      */
-    removeMiddleware(evnt) {
+    removeMiddleware(evnt = null) {
         if (evnt !== null) {
             if (Array.isArray(evnt)) {
                 evnt.forEach(e => this.removeMiddleware(e));

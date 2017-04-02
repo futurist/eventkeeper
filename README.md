@@ -205,4 +205,3 @@ ee.has('someevent');
 
 - Option for naming Middleware and reusing it (Also allows for more specific Middleware removal)
 - Add Tests
-- Add Travis CI build testing
