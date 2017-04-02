@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.2 - 2nd April 2017
 
 - Added basic test cases
 - `Array.isArray` Performance enhancement (#5)
