@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 2.0.2 - 2nd April 2017
 
 - Fixed `removeMiddleware` Function not having a default value
 
