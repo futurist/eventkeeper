@@ -204,4 +204,3 @@ ee.has('someevent');
 ## Planned Updates
 
 - Option for naming Middleware and reusing it (Also allows for more specific Middleware removal)
-- Add Tests
