@@ -1,6 +1,8 @@
 # EventKeeper
 
-[![NPM Downloads](https://img.shields.io/npm/dm/event-keeper.png)](https://www.npmjs.com/package/event-keeper)
+[![Travis](https://img.shields.io/travis/oyed/eventkeeper.svg?style=flat-square)](https://travis-ci.org/oyed/eventkeeper)
+[![NPM Downloads](https://img.shields.io/npm/dm/event-keeper.svg?style=flat-square)](https://www.npmjs.com/package/event-keeper)
+[![License](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](https://raw.githubusercontent.com/oyed/eventkeeper/master/LICENSE)
 
 A super-simple ES6-based Event Emitter. Supports compilers (Webpack, Browserify, etc.) and Node.
 
