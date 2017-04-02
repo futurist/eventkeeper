@@ -1,3 +1,5 @@
+const isArray = Array.isArray;
+
 class EventEmitter {
 
     /**
@@ -15,10 +17,10 @@ class EventEmitter {
      * @param {function} func
      */
     middleware(evnt, func) {
-        if (Array.isArray(evnt)) {
+        if (isArray(evnt)) {
             evnt.forEach(e => this.middleware(e, func));
         } else {
-            if (!Array.isArray(this._middleware[evnt])) {
+            if (!isArray(this._middleware[evnt])) {
                 this._middleware[evnt] = [];
             }
 
@@ -34,7 +36,7 @@ class EventEmitter {
      */
     removeListeners(evnt = null, middleware = false) {
         if (evnt !== null) {
-            if (Array.isArray(evnt)) {
+            if (isArray(evnt)) {
                 evnt.forEach(e => this.removeListeners(e, middleware));
             } else {
                 delete this._listeners[evnt];
@@ -55,7 +57,7 @@ class EventEmitter {
      */
     removeMiddleware(evnt = null) {
         if (evnt !== null) {
-            if (Array.isArray(evnt)) {
+            if (isArray(evnt)) {
                 evnt.forEach(e => this.removeMiddleware(e));
             } else {
                 delete this._middleware[evnt];
@@ -80,14 +82,14 @@ class EventEmitter {
         let doneCount = 0;
         let execute = silent;
 
-        if (Array.isArray(listeners) && listeners.length) {
+        if (isArray(listeners) && listeners.length) {
             listeners.forEach((listener, index) => {
                 // Start Middleware checks unless we're doing a silent emit
                 if (!silent) {
                     middleware = this._middleware[evnt];
 
                     // Check and execute Middleware
-                    if (Array.isArray(middleware) && middleware.length) {
+                    if (isArray(middleware) && middleware.length) {
                         middleware.forEach(m => {
                             m(data, (newData = null) => {
                                 if (newData !== null) {
@@ -131,7 +133,7 @@ class EventEmitter {
      * @param {boolean} [once]
      */
     on(evnt, callback, once = false) {
-        if (Array.isArray(evnt)) {
+        if (isArray(evnt)) {
             evnt.forEach(e => this.on(e, callback));
         } else {
             evnt = evnt.toString();
@@ -140,7 +142,7 @@ class EventEmitter {
             if (split.length > 1) {
                 split.forEach(e => this.on(e, callback));
             } else {
-                if (!Array.isArray(this._listeners[evnt])) {
+                if (!isArray(this._listeners[evnt])) {
                     this._listeners[evnt] = [];
                 }
 
@@ -179,7 +181,7 @@ class EventEmitter {
      * @returns {boolean}
      */
     has(evnt) {
-        return Array.isArray(this._listeners[evnt]) && this._listeners[evnt].length;
+        return isArray(this._listeners[evnt]) && this._listeners[evnt].length;
     }
 
 }
